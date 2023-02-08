@@ -1,0 +1,54 @@
+#include <stdio.h>
+
+#define MAX_PROCESSES 10
+
+struct process {
+  int pid;
+  int burst_time;
+};
+
+void sort_processes(struct process *processes, int num_processes) {
+  for (int i = 0; i < num_processes - 1; i++) {
+    int min_index = i;
+    for (int j = i + 1; j < num_processes; j++) {
+      if (processes[j].burst_time < processes[min_index].burst_time) {
+        min_index = j;
+      }
+    }
+    struct process temp = processes[i];
+    processes[i] = processes[min_index];
+    processes[min_index] = temp;
+  }
+}
+
+int main() {
+  struct process processes[MAX_PROCESSES];
+  int num_processes;
+  int total_burst_time = 0;
+
+  printf("Enter the number of processes: ");
+  scanf("%d", &num_processes);
+
+  for (int i = 0; i < num_processes; i++) {
+    printf("Enter burst time for process %d: ", i + 1);
+    scanf("%d", &processes[i].burst_time);
+    processes[i].pid = i + 1;
+    total_burst_time += processes[i].burst_time;
+  }
+
+  sort_processes(processes, num_processes);
+
+  printf("\nProcess ID\tBurst Time\n");
+  for (int i = 0; i < num_processes; i++) {
+    printf("%d\t\t%d\n", processes[i].pid, processes[i].burst_time);
+  }
+  
+
+  printf("\nProcess execution order: ");
+  for (int i = 0; i < num_processes; i++) {
+    printf("P%d -> ", processes[i].pid);
+  }
+  printf("\n");
+
+  return 0;
+}
