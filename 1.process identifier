@@ -1,0 +1,24 @@
+#include <stdio.h>
+#include <unistd.h>
+
+int main() {
+    pid_t pid, ppid;
+
+    if (pid == 0)
+	 {    
+        printf("Child process:\n");
+        printf("Process ID: %d\n", getpid());
+        printf("Parent process ID: %d\n", getpid());
+    }
+	 else if (pid > 0) 
+	{
+        printf("Parent process:\n");
+        printf("Process ID: %d\n", getpid());
+        printf("Child process ID: %d\n", pid);
+    } else 
+	{
+        printf("Error in creating new process\n");
+        return 1;
+    }
+    return 0;
+}
