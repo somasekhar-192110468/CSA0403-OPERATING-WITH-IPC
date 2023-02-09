@@ -1,0 +1,31 @@
+ #include <stdio.h>             
+    struct employeedetails
+	 {                              
+    unsigned int phnno; 
+    char lastName[ 15 ]; 
+    char firstName[ 10 ];  
+    double salary; 
+    };       
+    int main(void) 
+	{ 
+    FILE *cfPtr; 
+    struct employeedetails employee = { 0, "", "", 0.0 };
+    if ( ( cfPtr = fopen( "credit.dat", "rb+" ) ) == NULL ) 
+	{
+      puts( "File could not be opened." );
+    } 
+    else 
+	{  
+      printf( "%s", "Enter phone number: ");
+      scanf( "%d", &employee.phnno );
+    while ( employee.phnno != 0 ) { 
+    printf( "%s", "Enter lastname, firstname,salary\n? " );
+    fscanf( stdin, "%14s%9s%lf", employee.lastName,employee.firstName, &employee.salary );
+      fseek( cfPtr, ( employee.phnno - 1 )*sizeof( struct employeedetails ), SEEK_SET );                    
+      fwrite( &employee, sizeof( struct employeedetails ), 1, cfPtr );
+      printf( "%s", "Enter phone number\n? " );
+      scanf( "%d", &employee.phnno );
+      }
+      fclose( cfPtr );
+      }
+    } 
